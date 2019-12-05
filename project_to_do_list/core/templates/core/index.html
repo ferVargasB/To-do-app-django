@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>To-do app</title>
+</head>
+
+<body>
+
+    <header class="text-center">
+        <h1>To-do app</h1>
+    </header>
+
+    <section class="messages">
+        <div class="container" id="container_messages">
+        </div>
+    </section>
+
+    <section class="create-task">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <form action="/create_task/" method="POST" id="formTask">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="nameTask">Name</label>
+                            <input class="form-control" type="text" name="name" id="name" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="descriptionTask">Description</label>
+                            <textarea class="form-control" name="description" id="description" rows="3"
+                                required=""></textarea>
+                        </div>
+                        <input type="submit" class="btn btn-primary form-control" value="Create Task">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tasks">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-6 ">
+                    <div class="task mt-5" id="tasks_in_progress">
+                        <h4>Tasks in progress</h4>
+                        {% for task in  tasks %}
+                            {% if not task.is_done %}
+                                <div class="card mt-3" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{task.name}}</h5>
+                                        <p class="card-text">{{task.description}}</p>
+                                        <p class="card-text">Create date: {{task.create_date}}</p>
+                                        <button class="btn btn-primary btn-done" data-id="{{task.id}}">Mark as completed</button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 ">
+                    <div class="task mt-5" id="tasks_completed">
+                        <h4>Tasks completed</h4>
+                        {% for task in  tasks %}
+                            {% if task.is_done %}
+                                <div class="card mt-3" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{task.name}}</h5>
+                                        <p class="card-text">{{task.description}}</p>
+                                        <p class="card-text">Create date: {{task.create_date}}</p>
+                                        <p class="card-text">Complete date: {{task.complete_date}}</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="{% static 'core/js/core.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,5 @@
+<form action="/create_task/" method="POST" id="formTask">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" class="btn btn-primary form-control" value="Create Task">
+</form>

@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "C:\\minicondaInstall\\envs\\django2\\python.exe",
+    "python.formatting.provider": "yapf"
+}
