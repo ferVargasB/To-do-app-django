@@ -20,18 +20,23 @@ def create_task(request):
                 response = {"type":"ok","id":task.id,"name":task.name,"description":task.description,"create_date":task.create_date,"complete_date":task.complete_date}
                 return JsonResponse(response)
             else:
-                return JsonResponse(form.errors)                    
+                return JsonResponse(form.errors)                          
 
 def done_task(request):
     if request.is_ajax:
         if request.method == "POST":
-            id_task = int(request.POST['id_task'])
-            task = Task.objects.get(id=id_task)
-            task.is_done = True
-            task.complete_task = date.today()
-            task.save()
-            response = {"type":"ok","id":task.id,"name":task.name,"description":task.description,"create_date":task.create_date,"complete_date":task.complete_date}
-            return JsonResponse(response)
+            try:
+                # Code to try
+                id_task = int(request.POST['id_task'])
+                task = Task.objects.get(id=id_task)
+                task.is_done = True
+                task.complete_task = date.today()
+                task.save()
+                response = {"type":"ok","id":task.id,"name":task.name,"description":task.description,"create_date":task.create_date,"complete_date":task.complete_date}
+                return JsonResponse(response)
+            except ValueError:
+                response = {"type":"error","message":"No se encuentra la tarea"}
+                return JsonResponse(response)
 
               
 
